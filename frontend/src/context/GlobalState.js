@@ -27,17 +27,39 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const deleteTransaction = (id) => {
-    dispatch({ type: 'delete_transaction', payload: id });
+  const deleteTransaction = async (id) => {
+    try {
+      await axios.delete(`/api/v1/transactions/${id}`);
+      dispatch({ type: 'delete_transaction', payload: id });
+    } catch (err) {
+      dispatch({ type: 'transaction_error', payload: err.response.data.error });
+    }
   };
 
-  const addTransaction = (transaction) => {
-    dispatch({ type: 'add_transaction', payload: transaction });
+  const addTransaction = async (transaction) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/v1/transactions', transaction, config);
+      dispatch({ type: 'add_transaction', payload: res.data.data });
+    } catch (err) {
+      dispatch({ type: 'transaction_error', payload: err.response.data.error });
+    }
   };
 
   return (
     <GlobalContext.Provider
-      value={{ transactions: state.transactions, deleteTransaction, addTransaction }}
+      value={{
+        transactions: state.transactions,
+        deleteTransaction,
+        addTransaction,
+        getTransaction,
+        error: state.error,
+        loading: state.loading,
+      }}
     >
       {children}
     </GlobalContext.Provider>
