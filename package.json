@@ -4,7 +4,7 @@
   "description": "Backend for expense tracker",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "start": "node backend/server.js",
     "server": "nodemon server",
     "frontend": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/TheLukeRussell/expense-tracker.git"
   },
+  "engines": {
+    "node": "10.16.0"
+}
   "author": "Luke Russell",
   "license": "MIT",
   "bugs": {
