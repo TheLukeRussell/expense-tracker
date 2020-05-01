@@ -1,5 +1,7 @@
 export default (state, action) => {
   switch (action.type) {
+    case 'get_transaction':
+      return { ...state, loading: false, transactions: action.payload };
     case 'delete_transaction':
       return {
         ...state,
